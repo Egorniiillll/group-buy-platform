@@ -1,0 +1,54 @@
+{
+  "orders": [
+    {
+      "id": 1,
+      "title": "Заказ продуктов",
+      "description": "Совместная покупка продуктов на неделю",
+      "status": "OPEN",
+      "totalPrice": 4500,
+      "createdAt": "2026-05-20"
+    },
+    {
+      "id": 2,
+      "title": "Заказ бытовой химии",
+      "description": "Покупка средств для дома",
+      "status": "CLOSED",
+      "totalPrice": 3200,
+      "createdAt": "2026-05-18"
+    }
+  ],
+  "participants": [
+    {
+      "id": 1,
+      "orderId": 1,
+      "name": "Егор",
+      "rating": 5,
+      "paid": true
+    },
+    {
+      "id": 2,
+      "orderId": 1,
+      "name": "Аня",
+      "rating": 4,
+      "paid": false
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "orderId": 1,
+      "participantId": 1,
+      "title": "Молоко",
+      "price": 120,
+      "quantity": 2
+    },
+    {
+      "id": 2,
+      "orderId": 1,
+      "participantId": 2,
+      "title": "Сыр",
+      "price": 350,
+      "quantity": 1
+    }
+  ]
+}
