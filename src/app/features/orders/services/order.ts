@@ -21,7 +21,7 @@ export class OrderService {
   }
 
   getById(id: number): Observable<GroupOrder> {
-    return this.http.get<GroupOrder>(`${this.apiUrl}/${id} `);
+    return this.http.get<GroupOrder>(`${this.apiUrl}/${id}`);
   }
 
   create(order: Omit<GroupOrder, 'id'>): Observable<GroupOrder> {
