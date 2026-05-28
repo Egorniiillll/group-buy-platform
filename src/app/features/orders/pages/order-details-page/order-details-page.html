@@ -1,0 +1,73 @@
+<a routerLink="/orders">Назад к заказам</a>
+@if (loading) {
+  <p>Загрузка...</p>
+}
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (order) {
+  <h1>{{ order.title }}</h1>
+  <p>{{ order.description }}</p>
+  <p>Статус: {{ order.status }}</p>
+  <p>Общая сумма: {{ order.totalPrice }} ₽</p>
+  <p>Дата создания: {{ order.createdAt }}</p>
+  <h2>Участники</h2>
+  @if (participants.length === 0) {
+    <p>Участников пока нет</p>
+  }
+
+  @for (participant of participants; track participant.id) {
+    <div>
+      <p>
+        {{ participant.name }}
+        — рейтинг: {{ participant.rating }}
+        — оплата:
+        @if (participant.paid) {
+          оплачено
+        } @else {
+          не оплачено
+        }
+      </p>
+    </div>
+  }
+  <h2>Позиции заказа</h2>
+  @if (items.length === 0) {
+    <p>Позиций пока нет</p>
+  }
+  @for (item of items; track item.id) {
+    <div>
+      <p>
+        {{ item.title }}
+        — {{ item.price }} ₽ × {{ item.quantity }}
+        = {{ getItemTotal(item) }} ₽
+      </p>
+      <p>
+        Участник: {{ getParticipantName(item.participantId) }}
+      </p>
+    </div>
+  }
+  <h2>Расчёт расходов</h2>
+  @if (participants.length === 0) {
+    <p>Некого рассчитывать</p>
+  }
+  @for (participant of participants; track participant.id) {
+    <div>
+      <p>
+        {{ participant.name }} должен:
+        {{ getParticipantTotal(participant.id) }} ₽
+      </p>
+      <p>
+        Статус оплаты:
+        @if (participant.paid) {
+          оплачено
+        } @else {
+          не оплачено
+        }
+      </p>
+    </div>
+  }
+  <h3>Итоги</h3>
+  <p>Оплачено: {{ getPaidTotal() }} ₽</p>
+  <p>Не оплачено: {{ getUnpaidTotal() }} ₽</p>
+}

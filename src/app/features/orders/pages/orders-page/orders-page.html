@@ -1,0 +1,25 @@
+<h1>Совместные покупки</h1>
+
+<a routerLink="/orders/create">Создать заказ</a>
+
+@if (loading) {
+  <p>Загрузка...</p>
+}
+@if (error) {
+  <p>{{ error }}</p>
+}
+@if (!loading && !error && orders.length === 0) {
+  <div>заказов нет</div>
+}
+
+@for (order of orders; track order.id) {
+  <div>
+    <h2>{{ order.title }}</h2>
+    <p>{{ order.description }}</p>
+    <p>статус: {{ order.status }}</p>
+    <p>сумма: {{ order.totalPrice }} ₽</p>
+    <p>дата создания: {{ order.createdAt }}</p>
+    <a [routerLink]="['/orders', order.id]">открыть</a>
+    <hr />
+  </div>
+}

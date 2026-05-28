@@ -1,7 +1,7 @@
 {
   "orders": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Заказ продуктов",
       "description": "Совместная покупка продуктов на неделю",
       "status": "OPEN",
@@ -9,24 +9,32 @@
       "createdAt": "2026-05-20"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Заказ бытовой химии",
       "description": "Покупка средств для дома",
       "status": "CLOSED",
       "totalPrice": 3200,
       "createdAt": "2026-05-18"
+    },
+    {
+      "title": "в",
+      "description": "в",
+      "status": "OPEN",
+      "totalPrice": 3,
+      "createdAt": "2026-05-28",
+      "id": "DNhGKfam6pU"
     }
   ],
   "participants": [
     {
-      "id": 1,
+      "id": "1",
       "orderId": 1,
       "name": "Егор",
       "rating": 5,
       "paid": true
     },
     {
-      "id": 2,
+      "id": "2",
       "orderId": 1,
       "name": "Аня",
       "rating": 4,
@@ -35,7 +43,7 @@
   ],
   "items": [
     {
-      "id": 1,
+      "id": "1",
       "orderId": 1,
       "participantId": 1,
       "title": "Молоко",
@@ -43,12 +51,13 @@
       "quantity": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "orderId": 1,
       "participantId": 2,
       "title": "Сыр",
       "price": 350,
       "quantity": 1
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

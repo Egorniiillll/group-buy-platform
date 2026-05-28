@@ -1,0 +1,38 @@
+<h1>создание сов покупки</h1>
+
+<a routerLink="/orders">к заказам</a>
+@if (error) {
+  <p>{{ error }}</p>
+}
+<form (ngSubmit)="createOrder()">
+  <div>
+    <label for="title">название</label>
+    <input
+      id="title"
+      name="title"
+      type="text"
+      [(ngModel)]="title"
+      placeholder="заказ продуктов"
+    />
+  </div>
+  <div>
+    <label for="description">описание</label>
+    <textarea
+      id="description"
+      name="description"
+      [(ngModel)]="description"
+      placeholder="описание и условия заказа"
+    ></textarea>
+  </div>
+  <div>
+    <label for="totalPrice">сумма</label>
+    <input
+      id="totalPrice"
+      name="totalPrice"
+      type="number"
+      [(ngModel)]="totalPrice"
+      placeholder="4500"
+    />
+  </div>
+  <button type="submit">создать заказ</button>
+</form>
