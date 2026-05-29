@@ -1,6 +1,34 @@
 <h1>Совместные покупки</h1>
 
+<button type="button" (click)="logout()">Выйти</button>
 <a routerLink="/orders/create">Создать заказ</a>
+<h2>Фильтры</h2>
+
+<div>
+  <label>Поиск по названию</label>
+  <input
+    name="searchText"
+    [(ngModel)]="searchText"
+    placeholder="Например: продукты"
+  />
+</div>
+
+<div>
+  <label>Статус</label>
+  <select name="statusFilter" [(ngModel)]="statusFilter">
+    <option value="ALL">Все</option>
+    <option value="OPEN">Открытые</option>
+    <option value="CLOSED">Закрытые</option>
+  </select>
+</div>
+<div>
+  <label>сортировка</label>
+  <select name="sortType" [(ngModel)]="sortType">
+    <option value="NONE">Без сортировки</option>
+    <option value="PRICE_ASC">По сумме: сначала дешёвые</option>
+    <option value="PRICE_DESC">По сумме: сначала дорогие</option>
+  </select>
+</div>
 
 @if (loading) {
   <p>Загрузка...</p>
@@ -8,11 +36,10 @@
 @if (error) {
   <p>{{ error }}</p>
 }
-@if (!loading && !error && orders.length === 0) {
-  <div>заказов нет</div>
+@if (!loading && getFilteredOrders().length === 0) {
+  <p>заказы не найдены</p>
 }
-
-@for (order of orders; track order.id) {
+@for (order of getFilteredOrders(); track order.id) {
   <div>
     <h2>{{ order.title }}</h2>
     <p>{{ order.description }}</p>
