@@ -1,11 +1,11 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
-import {OrderService} from '../../services/order';
-import {ParticipantService} from '../../services/participant';
-import {OrderItemService} from '../../services/order-item';
-import {GroupOrder} from '../../../../shared/models/model';
-import {Participant} from '../../../../shared/models/participant.model';
-import {OrderItem} from '../../../../shared/models/order-item.model';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { OrderService } from '../../services/order';
+import { ParticipantService } from '../../services/participant';
+import { OrderItemService } from '../../services/order-item';
+import { GroupOrder } from '../../../../shared/models/model';
+import { Participant } from '../../../../shared/models/participant.model';
+import { OrderItem } from '../../../../shared/models/order-item.model';
 
 @Component({
   selector: 'app-order-details-page',
@@ -20,18 +20,17 @@ export class OrderDetailsPage implements OnInit {
   loading = true;
   error = '';
 
-
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
     private participantService: ParticipantService,
     private orderItemService: OrderItemService,
     private cdr: ChangeDetectorRef,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (!id) {
       this.error = 'некорректный id заказа';
       this.loading = false;
@@ -81,7 +80,6 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
-
   getParticipantName(participantId: string): string {
     const participant = this.participants.find((p) => p.id === participantId);
     return participant ? participant.name : 'неизвестный участник';
@@ -90,7 +88,6 @@ export class OrderDetailsPage implements OnInit {
   getItemTotal(item: OrderItem): number {
     return item.price * item.quantity;
   }
-
 
   getParticipantTotal(participantId: string): number {
     return this.items
@@ -106,7 +103,6 @@ export class OrderDetailsPage implements OnInit {
       }, 0);
   }
 
-
   getUnpaidTotal(): number {
     return this.participants
       .filter((participant) => !participant.paid)
@@ -115,5 +111,96 @@ export class OrderDetailsPage implements OnInit {
       }, 0);
   }
 
+  increaseRating(participant: Participant): void {
+    const newRating = participant.rating + 1;
 
+    this.participantService.updateRating(participant, newRating).subscribe({
+      next: (updatedParticipant) => {
+        participant.rating = updatedParticipant.rating;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.error = 'не удалось повысить рейтинг';
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  decreaseRating(participant: Participant): void {
+    if (participant.rating <= 0) {
+      return;
+    }
+
+    const newRating = participant.rating - 1;
+
+    this.participantService.updateRating(participant, newRating).subscribe({
+      next: (updatedParticipant) => {
+        participant.rating = updatedParticipant.rating;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.error = 'не удалось понизить рейтинг';
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  togglePaymentStatus(participant: Participant): void {
+    const newPaidStatus = !participant.paid;
+
+    this.participantService
+      .updatePaymentStatus(participant, newPaidStatus)
+      .subscribe({
+        next: (updatedParticipant) => {
+          participant.paid = updatedParticipant.paid;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.error = 'не удалось изменить статус оплаты';
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  exportReport(): void {
+    if (!this.order) {
+      return;
+    }
+
+    let report = `Отчёт по заказу: ${this.order.title}\n`;
+    report += `Описание: ${this.order.description}\n`;
+    report += `Статус: ${this.order.status}\n`;
+    report += `Общая сумма: ${this.order.totalPrice} ₽\n`;
+    report += `Дата создания: ${this.order.createdAt}\n\n`;
+
+    report += `Участники:\n`;
+
+    for (const participant of this.participants) {
+      report += `- ${participant.name}, рейтинг: ${participant.rating}, `;
+      report += participant.paid ? `оплачено\n` : `не оплачено\n`;
+    }
+    report += `\nПозиции заказа:\n`;
+    for (const item of this.items) {
+      report += `- ${item.title}: ${item.price} ₽ × ${item.quantity}`;
+      report += ` = ${this.getItemTotal(item)} ₽`;
+      report += `, участник: ${this.getParticipantName(item.participantId)}\n`;
+    }
+    report += `\nРасчёт расходов:\n`;
+    for (const participant of this.participants) {
+      report += `- ${participant.name}: ${this.getParticipantTotal(participant.id)} ₽\n`;
+    }
+    report += `\nИтоги:\n`;
+    report += `Оплачено: ${this.getPaidTotal()} ₽\n`;
+    report += `Не оплачено: ${this.getUnpaidTotal()} ₽\n`;
+    const blob = new Blob([report], {
+      type: 'text/plain;charset=utf-8',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `order-${this.order.id}-report.txt`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

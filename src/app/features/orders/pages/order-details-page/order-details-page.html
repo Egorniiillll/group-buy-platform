@@ -12,6 +12,7 @@
   <p>Статус: {{ order.status }}</p>
   <p>Общая сумма: {{ order.totalPrice }} ₽</p>
   <p>Дата создания: {{ order.createdAt }}</p>
+  <button type="button" (click)="exportReport()">Скачать отчёт</button>
   <h2>Участники</h2>
   @if (participants.length === 0) {
     <p>Участников пока нет</p>
@@ -29,6 +30,8 @@
           не оплачено
         }
       </p>
+      <button type="button" (click)="increaseRating(participant)">+ рейтинг</button>
+      <button type="button" (click)="decreaseRating(participant)">- рейтинг</button>
     </div>
   }
   <h2>Позиции заказа</h2>

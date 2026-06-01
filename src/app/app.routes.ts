@@ -4,6 +4,7 @@ import { OrdersPage } from './features/orders/pages/orders-page/orders-page';
 import { CreateOrderPage } from './features/orders/pages/create-order-page/create-order-page';
 import { OrderDetailsPage } from './features/orders/pages/order-details-page/order-details-page';
 import { authGuard } from './core/auth/guards/auth-guard';
+import {HistoryPage} from './features/history/pages/history-page/history-page';
 export const routes: Routes = [
   {
     path: 'login',
@@ -29,5 +30,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'orders',
     pathMatch: 'full',
+  },
+  {
+    path: 'history',
+    component: HistoryPage,
+    canActivate: [authGuard],
   },
 ];

@@ -1,7 +1,15 @@
 <h1>Совместные покупки</h1>
 
-<button type="button" (click)="logout()">Выйти</button>
+<button
+  tuiButton
+  type="button"
+  size="m"
+  (click)="logout()"
+>
+  Выйти
+</button>
 <a routerLink="/orders/create">Создать заказ</a>
+<a routerLink="/history">История заказов</a>
 <h2>Фильтры</h2>
 
 <div>
@@ -30,13 +38,13 @@
   </select>
 </div>
 
-@if (loading) {
+@if (ordersStore.loading()) {
   <p>Загрузка...</p>
 }
-@if (error) {
-  <p>{{ error }}</p>
+@if (ordersStore.error()) {
+  <p>{{ ordersStore.error() }}</p>
 }
-@if (!loading && getFilteredOrders().length === 0) {
+@if (!ordersStore.loading() && getFilteredOrders().length === 0) {
   <p>заказы не найдены</p>
 }
 @for (order of getFilteredOrders(); track order.id) {
