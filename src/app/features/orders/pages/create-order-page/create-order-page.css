@@ -1,0 +1,66 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px;
+  font-family: Arial, sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.card {
+  padding: 28px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: white;
+}
+
+.card h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.card p {
+  margin: 0 0 24px;
+  color: #666;
+}
+
+.form-field {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+button {
+  padding: 10px 16px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.error {
+  color: #b00020;
+  font-weight: 600;
+}

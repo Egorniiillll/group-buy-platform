@@ -1,0 +1,30 @@
+<div class="page">
+  <a class="back-link" routerLink="/orders">← Назад к заказам</a>
+
+  <div class="header">
+    <h1>История совместных покупок</h1>
+    <p> Завершённые совместные покупки.</p>
+  </div>
+  @if (loading) {
+    <p>Загрузка...</p>
+  }
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+  @if (!loading && orders.length === 0) {
+    <p>Завершённых заказов пока нет</p>
+  }
+  <div class="orders">
+    @for (order of orders; track order.id) {
+      <div class="order-card">
+        <h2>{{ order.title }}</h2>
+        <p>{{ order.description }}</p>
+        <div class="order-info">
+          <span>Сумма: {{ order.totalPrice }} ₽</span>
+          <span>Дата: {{ order.createdAt }}</span>
+        </div>
+        <a [routerLink]="['/orders', order.id]">Открыть</a>
+      </div>
+    }
+  </div>
+</div>

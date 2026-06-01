@@ -1,0 +1,60 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px;
+  font-family: Arial, sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+}
+
+.header p {
+  margin: 0;
+  color: #666;
+}
+
+.orders {
+  display: grid;
+  gap: 16px;
+}
+
+.order-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: white;
+}
+
+.order-card h2 {
+  margin: 0 0 12px;
+}
+
+.order-info {
+  display: flex;
+  gap: 24px;
+  margin: 16px 0;
+  color: #444;
+}
+
+.error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .order-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

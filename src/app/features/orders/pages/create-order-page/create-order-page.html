@@ -1,38 +1,45 @@
-<h1>создание сов покупки</h1>
+<div class="page">
+  <a class="back-link" routerLink="/orders">← К заказам</a>
 
-<a routerLink="/orders">к заказам</a>
-@if (error) {
-  <p>{{ error }}</p>
-}
-<form (ngSubmit)="createOrder()">
-  <div>
-    <label for="title">название</label>
-    <input
-      id="title"
-      name="title"
-      type="text"
-      [(ngModel)]="title"
-      placeholder="заказ продуктов"
-    />
+  <div class="card">
+    <h1>Создание совместной покупки</h1>
+    <p>Заполни основные данные заказа, чтобы добавить его в список совместных покупок.</p>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <form (ngSubmit)="createOrder()">
+      <div class="form-field">
+        <label for="title">Название</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          [(ngModel)]="title"
+          placeholder="Например: заказ продуктов"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="description">Описание</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="description"
+          placeholder="Описание и условия заказа"
+        ></textarea>
+      </div>
+      <div class="form-field">
+        <label for="totalPrice">Общая сумма</label>
+        <input
+          id="totalPrice"
+          name="totalPrice"
+          type="number"
+          [(ngModel)]="totalPrice"
+          placeholder="4500"
+        />
+      </div>
+      <button type="submit">Создать заказ</button>
+    </form>
   </div>
-  <div>
-    <label for="description">описание</label>
-    <textarea
-      id="description"
-      name="description"
-      [(ngModel)]="description"
-      placeholder="описание и условия заказа"
-    ></textarea>
-  </div>
-  <div>
-    <label for="totalPrice">сумма</label>
-    <input
-      id="totalPrice"
-      name="totalPrice"
-      type="number"
-      [(ngModel)]="totalPrice"
-      placeholder="4500"
-    />
-  </div>
-  <button type="submit">создать заказ</button>
-</form>
+</div>

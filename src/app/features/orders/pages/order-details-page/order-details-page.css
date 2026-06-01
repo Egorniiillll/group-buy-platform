@@ -1,0 +1,123 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px;
+  font-family: Arial, sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.order-header h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+}
+
+.order-header p {
+  margin: 0;
+  color: #666;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.summary div {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: #fafafa;
+}
+
+.summary span {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.summary strong {
+  font-size: 20px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2,
+.totals h2 {
+  margin-bottom: 16px;
+}
+
+.cards {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: white;
+}
+
+.card h3 {
+  margin: 0 0 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+button {
+  padding: 8px 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.paid {
+  color: #147d36;
+  font-weight: 700;
+}
+
+.unpaid {
+  color: #b00020;
+  font-weight: 700;
+}
+
+.totals {
+  padding: 20px;
+  border-radius: 16px;
+  background: #f3f3f3;
+}
+
+.error {
+  color: #b00020;
+}
+
+@media (max-width: 700px) {
+  .order-header {
+    flex-direction: column;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+}
