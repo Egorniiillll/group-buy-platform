@@ -46,3 +46,10 @@ src/app
   shared
     models
     components
+
+
+## Lighthouse
+
+Результат проверки производительности и качества приложения
+
+![Lighthouse](docs/lighthouse.png)

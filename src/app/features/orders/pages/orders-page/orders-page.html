@@ -72,6 +72,9 @@
           <span>Дата: {{ order.createdAt }}</span>
         </div>
         <a [routerLink]="['/orders', order.id]">Открыть</a>
+        <button type="button" (click)="deleteOrder(order.id)">
+          Удалить
+        </button>
       </div>
     }
   </div>
