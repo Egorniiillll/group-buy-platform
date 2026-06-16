@@ -19,6 +19,7 @@
         Скачать отчёт
       </button>
     </div>
+
     <div class="summary">
       <div>
         <span>Статус</span>
@@ -29,6 +30,7 @@
         <span>Общая сумма</span>
         <strong>{{ order.totalPrice }} ₽</strong>
       </div>
+
       <div>
         <span>Дата создания</span>
         <strong>{{ order.createdAt }}</strong>
@@ -37,6 +39,14 @@
 
     <section class="section">
       <h2>Участники</h2>
+      <form class="form" (ngSubmit)="addParticipant()">
+        <input
+          name="newParticipantName"
+          [(ngModel)]="newParticipantName"
+          placeholder="Имя участника"
+        />
+        <button type="submit">Добавить участника</button>
+      </form>
       @if (participants.length === 0) {
         <p>Участников пока нет</p>
       }
@@ -54,9 +64,14 @@
                 <span class="unpaid">не оплачено</span>
               }
             </p>
+
             <div class="buttons">
-              <button type="button" (click)="increaseRating(participant)">+ рейтинг</button>
-              <button type="button" (click)="decreaseRating(participant)">- рейтинг</button>
+              <button type="button" (click)="increaseRating(participant)">
+                + рейтинг
+              </button>
+              <button type="button" (click)="decreaseRating(participant)">
+                - рейтинг
+              </button>
               <button type="button" (click)="togglePaymentStatus(participant)">
                 @if (participant.paid) {
                   Отметить не оплачено
@@ -72,11 +87,40 @@
 
     <section class="section">
       <h2>Позиции заказа</h2>
-
+      <form class="form" (ngSubmit)="addItem()">
+        <input
+          name="newItemTitle"
+          [(ngModel)]="newItemTitle"
+          placeholder="Название позиции"
+        />
+        <input
+          name="newItemPrice"
+          type="number"
+          [(ngModel)]="newItemPrice"
+          placeholder="Цена"
+        />
+        <input
+          name="newItemQuantity"
+          type="number"
+          [(ngModel)]="newItemQuantity"
+          placeholder="Количество"
+        />
+        <select
+          name="newItemParticipantId"
+          [(ngModel)]="newItemParticipantId"
+        >
+          <option value="">Выберите участника</option>
+          @for (participant of participants; track participant.id) {
+            <option [value]="participant.id">
+              {{ participant.name }}
+            </option>
+          }
+        </select>
+        <button type="submit">Добавить позицию</button>
+      </form>
       @if (items.length === 0) {
         <p>Позиций пока нет</p>
       }
-
       <div class="cards">
         @for (item of items; track item.id) {
           <div class="card">
@@ -106,7 +150,6 @@
             <p>
               Должен: {{ getParticipantTotal(participant.id) }} ₽
             </p>
-
             <p>
               Статус оплаты:
               @if (participant.paid) {
@@ -119,6 +162,7 @@
         }
       </div>
     </section>
+
     <section class="totals">
       <h2>Итоги</h2>
       <p>Оплачено: {{ getPaidTotal() }} ₽</p>

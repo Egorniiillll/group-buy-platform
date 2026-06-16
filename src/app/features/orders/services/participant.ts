@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Participant } from '../../../shared/models/participant.model';
 
 @Injectable({
@@ -12,7 +12,15 @@ export class ParticipantService {
   constructor(private http: HttpClient) {}
 
   getByOrderId(orderId: string): Observable<Participant[]> {
-    return this.http.get<Participant[]>(`${this.apiUrl}?orderId=${orderId}`);
+    return this.http.get<Participant[]>(this.apiUrl).pipe(
+      map((participants) =>
+        participants.filter((participant) => String(participant.orderId) === orderId),
+      ),
+    );
+  }
+
+  create(participant: Omit<Participant, 'id'>): Observable<Participant> {
+    return this.http.post<Participant>(this.apiUrl, participant);
   }
 
   updateRating(participant: Participant, rating: number): Observable<Participant> {

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order';
 import { ParticipantService } from '../../services/participant';
 import { OrderItemService } from '../../services/order-item';
@@ -9,7 +10,7 @@ import { OrderItem } from '../../../../shared/models/order-item.model';
 
 @Component({
   selector: 'app-order-details-page',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './order-details-page.html',
   styleUrl: './order-details-page.css',
 })
@@ -19,6 +20,11 @@ export class OrderDetailsPage implements OnInit {
   items: OrderItem[] = [];
   loading = true;
   error = '';
+  newParticipantName = '';
+  newItemTitle = '';
+  newItemPrice: number | null = null;
+  newItemQuantity: number | null = null;
+  newItemParticipantId = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +36,6 @@ export class OrderDetailsPage implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-
     if (!id) {
       this.error = 'некорректный id заказа';
       this.loading = false;
@@ -38,7 +43,7 @@ export class OrderDetailsPage implements OnInit {
       return;
     }
 
-    this.orderService.getById(Number(id)).subscribe({
+    this.orderService.getById(id).subscribe({
       next: (order) => {
         this.order = order;
         this.loadParticipants(id);
@@ -78,6 +83,80 @@ export class OrderDetailsPage implements OnInit {
         this.cdr.markForCheck();
       },
     });
+  }
+
+  addParticipant(): void {
+    if (!this.order) {
+      return;
+    }
+    if (!this.newParticipantName.trim()) {
+      this.error = 'введите имя участника';
+      return;
+    }
+    this.participantService
+      .create({
+        orderId: this.order.id,
+        name: this.newParticipantName,
+        rating: 0,
+        paid: false,
+      })
+      .subscribe({
+        next: (participant) => {
+          this.participants = [...this.participants, participant];
+          this.newParticipantName = '';
+          this.error = '';
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.error = 'не удалось добавить участника';
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  addItem(): void {
+    if (!this.order) {
+      return;
+    }
+    if (!this.newItemTitle.trim()) {
+      this.error = 'введите название позиции';
+      return;
+    }
+    if (this.newItemPrice === null || this.newItemPrice <= 0) {
+      this.error = 'введите цену больше 0';
+      return;
+    }
+    if (this.newItemQuantity === null || this.newItemQuantity <= 0) {
+      this.error = 'введите количество больше 0';
+      return;
+    }
+    if (!this.newItemParticipantId) {
+      this.error = 'выберите участника';
+      return;
+    }
+    this.orderItemService
+      .create({
+        orderId: this.order.id,
+        participantId: this.newItemParticipantId,
+        title: this.newItemTitle,
+        price: this.newItemPrice,
+        quantity: this.newItemQuantity,
+      })
+      .subscribe({
+        next: (item) => {
+          this.items = [...this.items, item];
+          this.newItemTitle = '';
+          this.newItemPrice = null;
+          this.newItemQuantity = null;
+          this.newItemParticipantId = '';
+          this.error = '';
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.error = 'не удалось добавить позицию';
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   getParticipantName(participantId: string): string {
@@ -132,7 +211,6 @@ export class OrderDetailsPage implements OnInit {
     }
 
     const newRating = participant.rating - 1;
-
     this.participantService.updateRating(participant, newRating).subscribe({
       next: (updatedParticipant) => {
         participant.rating = updatedParticipant.rating;
@@ -147,7 +225,6 @@ export class OrderDetailsPage implements OnInit {
 
   togglePaymentStatus(participant: Participant): void {
     const newPaidStatus = !participant.paid;
-
     this.participantService
       .updatePaymentStatus(participant, newPaidStatus)
       .subscribe({
@@ -166,15 +243,12 @@ export class OrderDetailsPage implements OnInit {
     if (!this.order) {
       return;
     }
-
     let report = `Отчёт по заказу: ${this.order.title}\n`;
     report += `Описание: ${this.order.description}\n`;
     report += `Статус: ${this.order.status}\n`;
     report += `Общая сумма: ${this.order.totalPrice} ₽\n`;
     report += `Дата создания: ${this.order.createdAt}\n\n`;
-
     report += `Участники:\n`;
-
     for (const participant of this.participants) {
       report += `- ${participant.name}, рейтинг: ${participant.rating}, `;
       report += participant.paid ? `оплачено\n` : `не оплачено\n`;
@@ -195,12 +269,12 @@ export class OrderDetailsPage implements OnInit {
     const blob = new Blob([report], {
       type: 'text/plain;charset=utf-8',
     });
-
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `order-${this.order.id}-report.txt`;
     link.click();
+
     window.URL.revokeObjectURL(url);
   }
 }

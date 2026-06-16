@@ -20,7 +20,7 @@ export class OrderService {
     return this.http.get<GroupOrder[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<GroupOrder> {
+  getById(id: string): Observable<GroupOrder> {
     return this.http.get<GroupOrder>(`${this.apiUrl}/${id}`);
   }
 
