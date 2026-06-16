@@ -63,6 +63,24 @@ export class OrdersPage implements OnInit {
     return result;
   }
 
+  deleteOrder(id: string): void {
+    const confirmed = confirm('Удалить этот заказ?');
+    if (!confirmed) {
+      return;
+    }
+    this.orderService.delete(id).subscribe({
+      next: () => {
+        const updatedOrders = this.ordersStore
+          .orders()
+          .filter((order) => order.id !== id);
+        this.ordersStore.setOrders(updatedOrders);
+      },
+      error: () => {
+        this.ordersStore.setError('не удалось удалить заказ');
+      },
+    });
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

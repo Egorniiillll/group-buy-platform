@@ -6,73 +6,109 @@
       "description": "Совместная покупка продуктов на неделю",
       "status": "OPEN",
       "totalPrice": 4500,
-      "createdAt": "2026-05-20"
+      "createdAt": "2026-06-01"
     },
     {
       "id": "2",
       "title": "Заказ бытовой химии",
       "description": "Покупка средств для дома",
-      "status": "CLOSED",
+      "status": "OPEN",
       "totalPrice": 3200,
-      "createdAt": "2026-05-18"
+      "createdAt": "2026-06-03"
     },
     {
-      "title": "в",
-      "description": "в",
-      "status": "OPEN",
-      "totalPrice": 3,
-      "createdAt": "2026-05-28",
-      "id": "DNhGKfam6pU"
-    },
-    {
-      "title": "а",
-      "description": "а",
-      "status": "OPEN",
-      "totalPrice": 3,
-      "createdAt": "2026-05-29",
-      "id": "YgK1u6NywJI"
-    },
-    {
-      "title": "п",
-      "description": "п",
-      "status": "OPEN",
-      "totalPrice": 4,
-      "createdAt": "2026-05-29",
-      "id": "7IluHBQK4Ao"
+      "id": "3",
+      "title": "Заказ канцтоваров",
+      "description": "Совместная покупка тетрадей, ручек и папок",
+      "status": "CLOSED",
+      "totalPrice": 1800,
+      "createdAt": "2026-05-25"
     }
   ],
   "participants": [
     {
-      "id": "1",
+      "id": "p1",
       "orderId": 1,
       "name": "Егор",
-      "rating": 7,
+      "rating": 5,
       "paid": true
     },
     {
-      "id": "2",
+      "id": "p2",
       "orderId": 1,
-      "name": "Аня",
+      "name": "Анна",
       "rating": 4,
       "paid": false
+    },
+    {
+      "id": "p3",
+      "orderId": 2,
+      "name": "Иван",
+      "rating": 3,
+      "paid": false
+    },
+    {
+      "id": "p4",
+      "orderId": 2,
+      "name": "Мария",
+      "rating": 5,
+      "paid": true
+    },
+    {
+      "id": "p5",
+      "orderId": 3,
+      "name": "Олег",
+      "rating": 4,
+      "paid": true
+    },
+    {
+      "orderId": "1",
+      "name": "Дима",
+      "rating": 0,
+      "paid": false,
+      "id": "6MxthmqkczY"
     }
   ],
   "items": [
     {
-      "id": "1",
+      "id": "i1",
       "orderId": 1,
-      "participantId": 1,
+      "participantId": "p1",
       "title": "Молоко",
       "price": 120,
       "quantity": 2
     },
     {
-      "id": "2",
+      "id": "i2",
       "orderId": 1,
-      "participantId": 2,
+      "participantId": "p2",
       "title": "Сыр",
       "price": 350,
       "quantity": 1
+    },
+    {
+      "id": "i3",
+      "orderId": 2,
+      "participantId": "p3",
+      "title": "Порошок",
+      "price": 900,
+      "quantity": 1
+    },
+    {
+      "id": "i4",
+      "orderId": 2,
+      "participantId": "p4",
+      "title": "Средство для посуды",
+      "price": 250,
+      "quantity": 2
+    },
+    {
+      "id": "i5",
+      "orderId": 3,
+      "participantId": "p5",
+      "title": "Тетради",
+      "price": 60,
+      "quantity": 10
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -20,7 +20,7 @@ export class OrderService {
     return this.http.get<GroupOrder[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<GroupOrder> {
+  getById(id: string): Observable<GroupOrder> {
     return this.http.get<GroupOrder>(`${this.apiUrl}/${id}`);
   }
 
@@ -28,7 +28,9 @@ export class OrderService {
     return this.http.post<GroupOrder>(this.apiUrl, order);
   }
 
-  delete(id: number): Observable<void> {
+  delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+
 }
